@@ -24,7 +24,7 @@ sed -i 's/AcceptEnv/#AcceptEnv/g' /etc/ssh/sshd_config
 service ssh restart
 
 # set repo
-wget -O /etc/apt/sources.list "http://antclub.5gbfree.com/debian32/sources.list.debian7"
+wget -O /etc/apt/sources.list "https://raw.githubusercontent.com/syahz86/debian7/master/conf/sources.list.debian7"
 wget "http://www.dotdeb.org/dotdeb.gpg"
 wget "http://www.webmin.com/jcameron-key.asc"
 cat dotdeb.gpg | apt-key add -;rm dotdeb.gpg
@@ -61,7 +61,7 @@ service vnstat restart
 
 # install screenfetch
 cd
-wget http://antclub.5gbfree.com/debian32/screenfetch-dev
+wget https://raw.githubusercontent.com/syahz86/debian7/master/conf/screenfetch-dev
 mv screenfetch-dev /usr/bin/screenfetch
 chmod +x /usr/bin/screenfetch
 echo "clear" >> .profile
@@ -71,24 +71,24 @@ echo "screenfetch" >> .profile
 cd
 rm /etc/nginx/sites-enabled/default
 rm /etc/nginx/sites-available/default
-wget -O /etc/nginx/nginx.conf "http://antclub.5gbfree.com/debian32/nginx.conf"
+wget -O /etc/nginx/nginx.conf "https://raw.githubusercontent.com/syahz86/debian7/master/conf/nginx.conf"
 mkdir -p /home/vps/public_html
-echo "<pre>Setup by Kiellez</pre>" > /home/vps/public_html/index.html
+echo "<pre>Setup by SYAHZ86</pre>" > /home/vps/public_html/index.html
 echo "<?php phpinfo(); ?>" > /home/vps/public_html/info.php
-wget -O /etc/nginx/conf.d/vps.conf "http://antclub.5gbfree.com/debian32/vps.conf"
+wget -O /etc/nginx/conf.d/vps.conf "https://raw.githubusercontent.com/syahz86/debian7/master/conf/vps.conf"
 sed -i 's/listen = \/var\/run\/php5-fpm.sock/listen = 127.0.0.1:9000/g' /etc/php5/fpm/pool.d/www.conf
 service php5-fpm restart
 service nginx restart
 
 # install openvpn
-wget -O /etc/openvpn/openvpn.tar "http://antclub.5gbfree.com/debian32/openvpn.tar"
+wget -O /etc/openvpn/openvpn.tar "https://github.com/syahz86/debian7/raw/master/conf/openvpn.tar"
 cd /etc/openvpn/
 tar xf openvpn.tar
-wget -O /etc/openvpn/1194.conf "http://antclub.5gbfree.com/debian32/1194-debian.conf"
+wget -O /etc/openvpn/1194.conf "https://github.com/syahz86/debian7/raw/master/conf/1194-debian.conf"
 service openvpn restart
 sysctl -w net.ipv4.ip_forward=1
 sed -i 's/#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/g' /etc/sysctl.conf
-wget -O /etc/iptables.up.rules "http://antclub.5gbfree.com/debian32/iptables.up.rules"
+wget -O /etc/iptables.up.rules "https://github.com/syahz86/debian7/raw/master/conf/iptables.up.rules"
 sed -i '$ i\iptables-restore < /etc/iptables.up.rules' /etc/rc.local
 MYIP=`ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0' | grep -v '192.168'`;
 MYIP2="s/xxxxxxxxx/$MYIP/g";
@@ -99,20 +99,20 @@ service openvpn restart
 
 # configure openvpn client config
 cd /etc/openvpn/
-wget -O /etc/openvpn/1194-client.ovpn "http://antclub.5gbfree.com/debian32/1194-client.conf"
+wget -O /etc/openvpn/1194-client.ovpn "https://github.com/syahz86/debian7/raw/master/conf/1194-client.conf"
 sed -i $MYIP2 /etc/openvpn/1194-client.ovpn;
 sed -i 's/1194/1194/g' /etc/openvpn/1194-client.ovpn
 NAME=`uname -n`.`awk '/^domain/ {print $2}' /etc/resolv.conf`;
 mv /etc/openvpn/1194-client.ovpn /etc/openvpn/$NAME.ovpn
 useradd -M -s /bin/false antclub
-echo "antclub:369" | chpasswd
+echo "syahz86:123123" | chpasswd
 tar cf client.tar $NAME.ovpn
 cp client.tar /home/vps/public_html/
 cd
 
 # install mrtg
-wget -O /etc/snmp/snmpd.conf "http://antclub.5gbfree.com/debian32/snmpd.conf"
-wget -O /root/mrtg-mem.sh "http://antclub.5gbfree.com/debian32/mrtg-mem.sh"
+wget -O /etc/snmp/snmpd.conf "https://github.com/syahz86/debian7/raw/master/conf/snmpd.conf"
+wget -O /root/mrtg-mem.sh "https://github.com/syahz86/debian7/raw/master/conf/mrtg-mem.sh"
 chmod +x /root/mrtg-mem.sh
 cd /etc/snmp/
 sed -i 's/TRAPDRUN=no/TRAPDRUN=yes/g' /etc/default/snmpd
@@ -120,7 +120,7 @@ service snmpd restart
 snmpwalk -v 1 -c public localhost 1.3.6.1.4.1.2021.10.1.3.1
 mkdir -p /home/vps/public_html/mrtg
 cfgmaker --zero-speed 100000000 --global 'WorkDir: /home/vps/public_html/mrtg' --output /etc/mrtg.cfg public@localhost
-curl "http://antclub.5gbfree.com/debian32/mrtg.conf" >> /etc/mrtg.cfg
+curl "https://github.com/syahz86/debian7/raw/master/conf/mrtg.conf" >> /etc/mrtg.cfg
 sed -i 's/WorkDir: \/var\/www\/mrtg/# WorkDir: \/var\/www\/mrtg/g' /etc/mrtg.cfg
 sed -i 's/# Options\[_\]: growright, bits/Options\[_\]: growright/g' /etc/mrtg.cfg
 indexmaker --output=/home/vps/public_html/mrtg/index.html /etc/mrtg.cfg
@@ -148,7 +148,7 @@ service dropbear restart
 
 # install vnstat gui
 cd /home/vps/public_html/
-wget http://antclub.5gbfree.com/debian32/vnstat_php_frontend-1.5.1.tar.gz
+wget https://github.com/syahz86/debian7/raw/master/conf/vnstat_php_frontend-1.5.1.tar.gz
 tar xf vnstat_php_frontend-1.5.1.tar.gz
 rm vnstat_php_frontend-1.5.1.tar.gz
 mv vnstat_php_frontend-1.5.1 vnstat
@@ -162,7 +162,7 @@ cd
 
 # install squid3
 apt-get -y install squid3
-wget -O /etc/squid3/squid.conf "http://antclub.5gbfree.com/debian32/squid.conf"
+wget -O /etc/squid3/squid.conf "https://github.com/syahz86/debian7/raw/master/conf/squid.conf"
 sed -i $MYIP2 /etc/squid3/squid.conf;
 service squid3 restart
 
@@ -178,14 +178,14 @@ service vnstat restart
 
 # User Status
 cd
-wget http://antclub.5gbfree.com/debian32/user-list
+wget https://github.com/syahz86/debian7/raw/master/conf/user-list
 mv ./user-list /usr/local/bin/user-list
 chmod +x /usr/local/bin/user-list
 
 
 # limit
-wget -O userexpired.sh "http://antclub.5gbfree.com/debian32/userexpired.sh"
-wget -O expire.sh "http://antclub.5gbfree.com/debian32/expire.sh"
+wget -O userexpired.sh "https://github.com/syahz86/debian7/raw/master/conf/userexpired.sh"
+wget -O expire.sh "https://github.com/syahz86/debian7/raw/master/conf/expire.sh"
 echo "@reboot root /root/userexpired.sh" > /etc/cron.d/userexpired
 chmod +x userexpired.sh
 chmod +x expire.sh
@@ -193,25 +193,25 @@ chmod +x expire.sh
 
 # Install Monitor
 cd
-wget http://antclub.5gbfree.com/debian32/monssh; mv monssh /usr/local/bin/; chmod +x /usr/local/bin/monssh
+wget https://github.com/syahz86/debian7/raw/master/conf/monssh; mv monssh /usr/local/bin/; chmod +x /usr/local/bin/monssh
 
 
 # Install Menu
 cd
-wget http://antclub.5gbfree.com/debian32/menu
+wget https://github.com/syahz86/debian7/raw/master/conf/menu
 mv ./menu /usr/local/bin/menu
 chmod +x /usr/local/bin/menu
 
 # moth
 cd
-wget http://antclub.5gbfree.com/debian32/motd
+wget https://github.com/syahz86/debian7/raw/master/conf/motd
 mv ./motd /etc/motd
 
 # download script
 cd
-wget -O speedtest_cli.py "https://raw.github.com/sivel/speedtest-cli/master/speedtest_cli.py"
-wget -O bench-network.sh "http://antclub.5gbfree.com/debian32/bench-network.sh"
-wget -O ps_mem.py "https://raw.github.com/pixelb/ps_mem/master/ps_mem.py"
+wget -O speedtest_cli.py "https://github.com/syahz86/debian7/raw/master/conf/speedtest_cli.py"
+wget -O bench-network.sh "https://github.com/syahz86/debian7/raw/master/conf/bench-network.sh"
+wget -O ps_mem.py "https://github.com/syahz86/debian7/raw/master/conf/ps_mem.py"
 chmod +x bench-network.sh
 chmod +x speedtest_cli.py
 chmod +x ps_mem.py
