@@ -232,7 +232,7 @@ rm debian32.sh
 
 # info
 clear
-echo "           System Created by AnakAntuu"
+echo "           System Created by SYAHZ86"
 echo "          ==========***********==========="
 echo "==============================================="
 echo "OpenVPN  : Download client : http://$MYIP:81/client.tar"
@@ -245,7 +245,6 @@ echo "Timezone : Asia/Malaysia"
 echo "Fail2Ban : [on]"
 echo "IPv6     : [off]"
 echo "Status   : please type ''status'' to check user status"
-echo "Website  : http://autoscript.anakantu.website
 echo ""
 echo "              Sila Reboot VPS Anda !"
 echo "                  Terima Kasih"
