@@ -7,7 +7,7 @@ UP=`uptime`
 echo $FREE
 echo $SWAP
 echo $UP
-echo "AntClub AutoScript"
+echo "GollumVPN AutoScript"
 
 #rip
 cd
