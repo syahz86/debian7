@@ -104,7 +104,7 @@ sed -i $MYIP2 /etc/openvpn/1194-client.ovpn;
 sed -i 's/1194/1194/g' /etc/openvpn/1194-client.ovpn
 NAME=`uname -n`.`awk '/^domain/ {print $2}' /etc/resolv.conf`;
 mv /etc/openvpn/1194-client.ovpn /etc/openvpn/$NAME.ovpn
-useradd -M -s /bin/false antclub
+useradd -M -s /bin/false syahz86
 echo "syahz86:123123" | chpasswd
 tar cf client.tar $NAME.ovpn
 cp client.tar /home/vps/public_html/
