@@ -216,6 +216,13 @@ chmod +x bench-network.sh
 chmod +x speedtest_cli.py
 chmod +x ps_mem.py
 
+#bonus block playstation
+iptables -A OUTPUT -d account.sonyentertainmentnetwork.com -j DROP
+iptables -A OUTPUT -d auth.np.ac.playstation.net -j DROP
+iptables -A OUTPUT -d auth.api.sonyentertainmentnetwork.com -j DROP
+iptables -A OUTPUT -d auth.api.np.ac.playstation.net -j DROP
+iptables-save
+
 # Restart Service
 chown -R www-data:www-data /home/vps/public_html
 service nginx start
