@@ -12,7 +12,7 @@ function create_user() {
 
 	myip=`ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0' | head -n1`;
 	myip2="s/xxxxxxxxx/$myip/g";	
-	wget -qO /tmp/client.ovpn "http://antclub.5gbfree.com/autoscript/debian7/1194-client.conf"
+	wget -qO /tmp/client.ovpn "https://github.com/syahz86/debian7/raw/master/conf/1194-client.conf"
 	sed -i 's/remote xxxxxxxxx 1194/remote xxxxxxxxx 443/g' /tmp/client.ovpn
 	sed -i $myip2 /tmp/client.ovpn
 	echo ""
@@ -21,7 +21,7 @@ function create_user() {
 	echo "http://$myip:81/client.tar"
 	echo ""
 	echo "NO TORRENT allowed here"
-	echo "thanks for support AntClub channel"
+	echo "thanks for support GollumVPN channel"
 }
 
 function renew_user() {
